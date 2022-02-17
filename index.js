@@ -113,7 +113,28 @@ function momsSpagetti(lyrics) {
 // REFACTORED VERSION HERE //
 /* eslint-enable */
 
-const momsSpaghetti = (songStructure) => {
+/**
+ * @typedef {Object} SongChorus
+ * @property {string} chorus Lyrics to this chorus
+ *
+ * @typedef {Object} SongStructure
+ * @property {string} intro Lyrics of the intro to this song
+ * @property {SongChorus[]} choruses Ordered array of choruses in this song
+ * @property {string} refrain Lyrics to the refrain of this song
+ * @property {number} refrainRepeat Number of times the refrain repeats after each chorus
+ * @property {string} ending Lyrics to the outro of this song
+ *
+ * @typedef {function(SongStructure):string} SongArranger
+ */
+
+/**
+ * Arranges the given set of song components into a single string containing the complete
+ * lyrics of the song, based on default assumptions about the structure and ordering.
+ *
+ * @param {SongStructure} songStructure Song components to arrange
+ * @returns {string}
+ */
+const arrangeSong = (songStructure) => {
   const {
     intro, refrain, choruses, ending, refrainRepeat,
   } = songStructure;
@@ -125,8 +146,11 @@ const momsSpaghetti = (songStructure) => {
   return allVerses.join("");
 };
 
+const momsSpaghetti = (songStructure) => arrangeSong(songStructure);
+
 const OG = { momsSpagetti, lyrics };
 export {
+  arrangeSong,
   momsSpaghetti,
   OG,
 };

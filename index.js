@@ -1,4 +1,5 @@
-//Task:
+/* eslint-disable */
+// Task:
 // Create a refactored version of the following code at the bottom of this file using ES6 conventions
 // Also leave a commented section breifly outlining some of the techniques, style choice, and reasons for your refactoring choices
 // The refactored version of this code should be promise based and consider standard linting practices
@@ -14,7 +15,7 @@ const lyrics = {
   Would you capture\
   Or just let it slip?",
   choruses: [{
-      chorus: "Yo\
+    chorus: "Yo\
       His palms are sweaty, knees weak, arms are heavy\
       There's vomit on his sweater already, mom's spaghetti\
       He's nervous, but on the surface he looks calm and ready\
@@ -30,10 +31,10 @@ const lyrics = {
       It don't matter, he's dope, he knows that, but he's broke\
       He's so stacked that he knows, when he goes back to his mobile home, that's when its\
       Back to the lab again yo, this whole rhapsody\
-      He better go capture this moment and hope it don't pass him"
+      He better go capture this moment and hope it don't pass him",
   },
   {
-      chorus: "The souls escaping, through this hole that its gaping\
+    chorus: "The souls escaping, through this hole that its gaping\
       This world is mine for the taking\
       Make me king, as we move toward a, new world order\
       A normal life is borin', but super stardom's close to post mortem\
@@ -46,10 +47,10 @@ const lyrics = {
       His hoes don't want him no mo, he's cold product\
       They moved on to the next schmo who flows, he nose dove and sold nada\
       So the soap opera is told and unfolds, I suppose it's old partna, but the beat goes on\
-      Da da dumb da dumb da da"
+      Da da dumb da dumb da da",
   },
   {
-      chorus: "No more games, I'm a change what you call rage\
+    chorus: "No more games, I'm a change what you call rage\
       Tear this roof off like two dogs caged\
       I was playin' in the beginnin', the mood all changed\
       I been chewed up and spit out and booed off stage\
@@ -70,45 +71,62 @@ const lyrics = {
       Success is my only option, failures not\
       Mom, I love you, but this trail has got to go, I cannot grow old in Salem's lot\
       So here I go is my shot\
-      Feet fail me not 'cause maybe the only opportunity that I got"
+      Feet fail me not 'cause maybe the only opportunity that I got",
   }],
-  refrain:"You better lose yourself in the music, the moment \
+  refrain: 'You better lose yourself in the music, the moment \
   You own it, you better never let it go \
   You only get one shot, do not miss your chance to blow \
-  This opportunity comes once in a lifetime you better",
+  This opportunity comes once in a lifetime you better',
   refrainRepeat: 2, // number of times that refrain get repeated between choruses
-  ending: "You can do anything you set your mind to, man"
-}
+  ending: 'You can do anything you set your mind to, man',
+};
 // DO NOT REFACTOR THIS SECTION //
 
-
 // REFACTOR THIS CODE //
-// This code assembles the above object into a string with the lyrics for Eminem's "lose Yourself". 
+// This code assembles the above object into a string with the lyrics for Eminem's "lose Yourself".
 // The result should look like https://www.google.ca/search?rlz=1C5CHFA_enCA764CA764&ei=4iFbWs_VG43CjwOJ465Q&q=lose+yourself+lyrics&oq=lose+yoursle&gs_l=psy-ab.3.0.0i10k1l10.6780.11717.0.12640.28.24.0.2.2.0.275.2686.4j13j2.20.0....0...1c.1.64.psy-ab..15.12.1403.0..0j0i67k1j0i131k1j0i131i67k1.234.XSGvMUvV4XY
 function momsSpagetti(lyrics) {
-
-  var loseYourself;
-  var internalCounter = 0
+  let loseYourself;
+  let internalCounter = 0;
   loseYourself = lyrics.intro;
 
-  for(let i = 0; i < lyrics.choruses.length; i++) {
-      loseYourself = loseYourself + lyrics.choruses[i].chorus;
-      if(internalCounter == 0) {
-          internalCounter++
-          loseYourself = loseYourself + lyrics.refrain
-      }
-      if(internalCounter == 1) {
-          internalCounter++
-          loseYourself = loseYourself + lyrics.refrain
-      }
-      if(internalCounter == 2) {
-          internalCounter = 0
-      }
+  for (let i = 0; i < lyrics.choruses.length; i++) {
+    loseYourself += lyrics.choruses[i].chorus;
+    if (internalCounter == 0) {
+      internalCounter++;
+      loseYourself += lyrics.refrain;
+    }
+    if (internalCounter == 1) {
+      internalCounter++;
+      loseYourself += lyrics.refrain;
+    }
+    if (internalCounter == 2) {
+      internalCounter = 0;
+    }
   }
 
-  loseYourself = loseYourself + lyrics.ending;
+  loseYourself += lyrics.ending;
 
   return loseYourself;
 }
 
 // REFACTORED VERSION HERE //
+/* eslint-enable */
+
+const momsSpaghetti = (songStructure) => {
+  const {
+    intro, refrain, choruses, ending, refrainRepeat,
+  } = songStructure;
+
+  const repeatedRefrains = refrain.repeat(refrainRepeat);
+  const chorusesWithRefrains = choruses.map(({ chorus }) => chorus + repeatedRefrains);
+  const allVerses = [intro, ...chorusesWithRefrains, ending];
+
+  return allVerses.join("");
+};
+
+const OG = { momsSpagetti, lyrics };
+export {
+  momsSpaghetti,
+  OG,
+};

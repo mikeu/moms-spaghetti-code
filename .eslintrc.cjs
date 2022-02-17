@@ -12,6 +12,8 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    quotes: ["error", 'double'],
+    'import/extensions': [1, 'ignorePackages'],
   },
   plugins: [
     'chai-friendly',

@@ -124,6 +124,7 @@ function momsSpagetti(lyrics) {
  * @property {number} refrainRepeat Number of times the refrain repeats after each chorus
  * @property {string} ending Lyrics to the outro of this song
  *
+ * @typedef {function():Promise<SongStructure>} SongRetriever
  * @typedef {function(SongStructure):string} SongArranger
  */
 
@@ -131,6 +132,7 @@ function momsSpagetti(lyrics) {
  * Arranges the given set of song components into a single string containing the complete
  * lyrics of the song, based on default assumptions about the structure and ordering.
  *
+ * @type {SongArranger}
  * @param {SongStructure} songStructure Song components to arrange
  * @returns {string}
  */
@@ -146,11 +148,36 @@ const arrangeSong = (songStructure) => {
   return allVerses.join("");
 };
 
-const momsSpaghetti = (songStructure) => arrangeSong(songStructure);
+/**
+ * Asynchronously obtains the structure of a song, then arranges the constituent parts
+ * into a single lyrics string, which is returned.
+ *
+ * @param {SongRetriever} songRetriever Method by which to retrieve song components
+ * @param {SongArranger} songArranger Method with which to convert components to lyrics
+ * @returns {string}
+ */
+const getSongLyrics = async (songRetriever, songArranger) => {
+  const structure = await songRetriever();
+
+  return songArranger(structure);
+};
+
+/**
+ * Wraps the more generic `getSongLyrics` method to expose the same API for building
+ * the lyrics to _Lose Yourself_ as the legacy function above. While this method
+ * exists as an easy drop-in replacement, its use in new code should be avoided in
+ * favour of the async-ready methods now available.
+ *
+ * @deprecated
+ * @param {SongStructure} songStructure Original lyrics object
+ * @returns
+ */
+const momsSpaghetti = (songStructure) => getSongLyrics(() => songStructure, arrangeSong);
 
 const OG = { momsSpagetti, lyrics };
 export {
   arrangeSong,
-  momsSpaghetti,
+  getSongLyrics,
+  momsSpaghetti as momsSpagetti,
   OG,
 };

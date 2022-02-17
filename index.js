@@ -113,6 +113,21 @@ function momsSpagetti(lyrics) {
 // REFACTORED VERSION HERE //
 /* eslint-enable */
 
+// In refactoring the above code, I first got a test environment set up to ensure that
+// new output matched old. I then wrote a replacement to the existing logic using more
+// modern JavaScript functionality, including destructuring assignments, native string
+// and array methods, and the spread operator.
+//   This reduced the ~20 lines of the original method to essentially four statements,
+// which I think also have the benefit of being more easily reasoned through by future
+// developers should they ever need to revisit this code. Next, I extracted this newly
+// written routine to a more generic method available to arrange any song presented in
+// the appropriate object format. At the same time I added type-hinting for components
+// of that format.
+//   The final version presented here uses inversion of control to allow any consumers
+// of the new `getSongLyrics` API to swap in as-yet-unwritten functions to obtain song
+// components, such as using async fetch requests to API endpoints or file systems. It
+// also provides a sane default method for arranging songs, in `arrangeSong`.
+
 /**
  * @typedef {Object} SongChorus
  * @property {string} chorus Lyrics to this chorus
@@ -174,6 +189,8 @@ const getSongLyrics = async (songRetriever, songArranger) => {
  */
 const momsSpaghetti = (songStructure) => getSongLyrics(() => songStructure, arrangeSong);
 
+// Expose the previous method and data. Primarily for testing purposes, until it can be
+// removed entirely.
 const OG = { momsSpagetti, lyrics };
 export {
   arrangeSong,

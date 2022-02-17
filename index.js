@@ -91,7 +91,7 @@ function momsSpagetti(lyrics) {
   var internalCounter = 0
   loseYourself = lyrics.intro;
 
-  for(i = 0; i < lyrics.choruses.length; i++) {
+  for(let i = 0; i < lyrics.choruses.length; i++) {
       loseYourself = loseYourself + lyrics.choruses[i].chorus;
       if(internalCounter == 0) {
           internalCounter++

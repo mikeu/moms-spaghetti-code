@@ -182,9 +182,10 @@ const getSongLyrics = async (songRetriever, songArranger) => {
 
 /**
  * Wraps the more generic `getSongLyrics` method to expose the same API for building
- * the lyrics to _Lose Yourself_ as the legacy function above. While this method
- * exists as an easy drop-in replacement, its use in new code should be avoided in
- * favour of the async-ready methods now available.
+ * the lyrics to _Lose Yourself_ as the legacy function above. In a hypothetical
+ * situation where the original method was depended upon elsewhere in a larger code
+ * base, this would allow the async refactored method to be slowly introduced without
+ * needing to refactor at every existing call site.
  *
  * @deprecated
  * @param {SongStructure} songStructure Original lyrics object
@@ -198,6 +199,7 @@ const OG = { momsSpagetti, lyrics };
 export {
   arrangeSong,
   getSongLyrics,
+  // Expose the refactored method using the original name, to avoid breaking changes.
   momsSpaghetti as momsSpagetti,
   OG,
 };

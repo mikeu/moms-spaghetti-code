@@ -165,7 +165,9 @@ const arrangeSong = (songStructure) => {
 
 /**
  * Asynchronously obtains the structure of a song, then arranges the constituent parts
- * into a single lyrics string, which is returned.
+ * into a single lyrics string, which is returned. If no `SongArranger` function is
+ * provided, the default `arrangeSong` defined above is used to process the retrieved
+ * song component data.
  *
  * @param {SongRetriever} songRetriever Method by which to retrieve song components
  * @param {SongArranger} songArranger Method with which to convert components to lyrics
@@ -173,8 +175,9 @@ const arrangeSong = (songStructure) => {
  */
 const getSongLyrics = async (songRetriever, songArranger) => {
   const structure = await songRetriever();
+  const arranger = songArranger || arrangeSong;
 
-  return songArranger(structure);
+  return arranger(structure);
 };
 
 /**
